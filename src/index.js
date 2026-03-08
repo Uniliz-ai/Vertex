@@ -1,4 +1,5 @@
-(function () {
+window.vertexInit = function (config = {}) {
+  const token = config.token || "";
   // Create the shadow host
   const host = document.createElement("div");
   host.id = "vertex-ai-assistant";
@@ -147,7 +148,7 @@
         const response = await fetch("http://localhost:8000/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text }),
+          body: JSON.stringify({ message: text, token: token }),
         });
         const data = await response.json();
         addMessage("ai", data.response);
@@ -167,4 +168,4 @@
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
-})();
+};
