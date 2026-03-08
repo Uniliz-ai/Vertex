@@ -7,110 +7,19 @@ window.vertexInit = function (config = {}) {
 
   const shadow = host.attachShadow({ mode: "open" });
 
-  // Inject styles
-  const styles = document.createElement("style");
-  styles.textContent = `
-.vertex-widget-root {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  z-index: 10000;
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-/* Floating Action Button (FAB) */
-.vertex-trigger {
-  width: 56px;
-  height: 56px;
-  border-radius: 28px;
-  background: #1a1a1a; /* Professional dark theme */
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease;
-}
-
-.vertex-trigger:hover {
-  transform: scale(1.05);
-}
-
-/* Chat Window */
-.vertex-window {
-  display: none;
-  flex-direction: column;
-  width: 350px;
-  height: 450px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  position: absolute;
-  bottom: 70px;
-  right: 0;
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
-}
-
-.vertex-window.active {
-  display: flex;
-}
-
-.vertex-header {
-  background: #1a1a1a;
-  color: white;
-  padding: 16px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.vertex-messages {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-  font-size: 14px;
-  line-height: 1.5;
-  background: #f9fafb;
-}
-
-.msg {
-  margin-bottom: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  max-width: 80%;
-}
-.msg-user {
-  background: #e5e7eb;
-  align-self: flex-end;
-  margin-left: auto;
-}
-.msg-ai {
-  background: #1a1a1a;
-  color: white;
-  align-self: flex-start;
-}
-
-.vertex-input-area {
-  padding: 12px;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  gap: 8px;
-}
-
-.vertex-input-area input {
-  flex: 1;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 8px 12px;
-  outline: none;
-}`;
+  // Inject styles from external file
+  const styles = document.createElement("link");
+  styles.rel = "stylesheet";
+  // Assuming the stylesheet is in the same directory as this script or relative to the page
+  // A better way would be to get the base path of the current script, 
+  // but for simplicity we'll use a relative path or a configurable one.
+  styles.href = config.cssPath || "styles.css";
   shadow.appendChild(styles);
 
   // Create the HTML structure
   const root = document.createElement("div");
-  root.className = "vertex-widget-root";
+  const theme = config.theme || "light";
+  root.className = `vertex-widget-root theme-${theme}`;
   root.innerHTML = `
         <div class="vertex-window" id="window">
             <div class="vertex-header">Vertex AI Assistant</div>

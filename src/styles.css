@@ -1,0 +1,195 @@
+:host {
+  display: block;
+}
+
+.vertex-widget-root {
+  /* Default Colors (Modern Light) */
+  --vertex-primary: #3b82f6;
+  --vertex-primary-hover: #2563eb;
+  --vertex-bg: #ffffff;
+  --vertex-surface: #f9fafb;
+  --vertex-header-bg: #ffffff;
+  --vertex-text: #1f2937;
+  --vertex-text-muted: #6b7280;
+  --vertex-user-bg: #3b82f6;
+  --vertex-user-text: #ffffff;
+  --vertex-ai-bg: #f3f4f6;
+  --vertex-ai-text: #1f2937;
+  --vertex-border: #e5e7eb;
+  --vertex-input-bg: #ffffff;
+  --vertex-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --vertex-radius: 16px;
+  --vertex-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 10000;
+  font-family: var(--vertex-font);
+}
+
+/* Dark Theme */
+.vertex-widget-root.theme-dark {
+  --vertex-bg: #111827;
+  --vertex-surface: #1f2937;
+  --vertex-header-bg: #111827;
+  --vertex-text: #f9fafb;
+  --vertex-text-muted: #9ca3af;
+  --vertex-user-bg: #3b82f6;
+  --vertex-ai-bg: #374151;
+  --vertex-ai-text: #f9fafb;
+  --vertex-border: #374151;
+  --vertex-input-bg: #1f2937;
+  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Ocean Theme */
+.vertex-widget-root.theme-ocean {
+  --vertex-primary: #0d9488;
+  --vertex-primary-hover: #0f766e;
+  --vertex-bg: #0f172a;
+  --vertex-surface: #1e293b;
+  --vertex-header-bg: #0f172a;
+  --vertex-text: #f1f5f9;
+  --vertex-text-muted: #94a3b8;
+  --vertex-user-bg: #0d9488;
+  --vertex-ai-bg: #334155;
+  --vertex-ai-text: #f1f5f9;
+  --vertex-border: #334155;
+  --vertex-input-bg: #1e293b;
+  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+/* Sunset Theme */
+.vertex-widget-root.theme-sunset {
+  --vertex-primary: #f43f5e;
+  --vertex-primary-hover: #e11d48;
+  --vertex-bg: #4c0519;
+  --vertex-surface: #881337;
+  --vertex-header-bg: #4c0519;
+  --vertex-text: #fff1f2;
+  --vertex-text-muted: #fda4af;
+  --vertex-user-bg: #f43f5e;
+  --vertex-ai-bg: #be123c;
+  --vertex-ai-text: #fff1f2;
+  --vertex-border: #be123c;
+  --vertex-input-bg: #881337;
+  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+.vertex-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--vertex-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--vertex-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vertex-trigger:hover {
+  transform: scale(1.1);
+  background: var(--vertex-primary-hover);
+}
+
+.vertex-window {
+  display: none;
+  flex-direction: column;
+  width: 360px;
+  height: 500px;
+  background: var(--vertex-bg);
+  border-radius: var(--vertex-radius);
+  box-shadow: var(--vertex-shadow);
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  overflow: hidden;
+  border: 1px solid var(--vertex-border);
+  transition: all 0.3s ease;
+}
+
+.vertex-window.active {
+  display: flex;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vertex-header {
+  background: var(--vertex-header-bg);
+  color: var(--vertex-text);
+  padding: 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--vertex-border);
+}
+
+.vertex-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--vertex-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.msg {
+  padding: 10px 14px;
+  border-radius: 12px;
+  max-width: 85%;
+  word-wrap: break-word;
+}
+
+.msg-user {
+  background: var(--vertex-user-bg);
+  color: var(--vertex-user-text);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.msg-ai {
+  background: var(--vertex-ai-bg);
+  color: var(--vertex-ai-text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--vertex-border);
+}
+
+.vertex-input-area {
+  padding: 16px;
+  background: var(--vertex-bg);
+  border-top: 1px solid var(--vertex-border);
+  display: flex;
+  gap: 8px;
+}
+
+.vertex-input-area input {
+  flex: 1;
+  background: var(--vertex-input-bg);
+  border: 1px solid var(--vertex-border);
+  color: var(--vertex-text);
+  border-radius: 10px;
+  padding: 10px 14px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.vertex-input-area input:focus {
+  border-color: var(--vertex-primary);
+}
+
+.vertex-input-area input::placeholder {
+  color: var(--vertex-text-muted);
+}
