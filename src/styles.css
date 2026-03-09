@@ -3,22 +3,23 @@
 }
 
 .vertex-widget-root {
-  /* Default Colors (Modern Light) */
-  --vertex-primary: #3b82f6;
-  --vertex-primary-hover: #2563eb;
+  /* Default Colors (Minimal Light) */
+  --vertex-accent: #3b82f6; /* Default accent */
+  --vertex-primary: var(--vertex-accent);
+  --vertex-primary-hover: var(--vertex-accent);
   --vertex-bg: #ffffff;
-  --vertex-surface: #f9fafb;
+  --vertex-surface: #f5f5f5;
   --vertex-header-bg: #ffffff;
-  --vertex-text: #1f2937;
-  --vertex-text-muted: #6b7280;
-  --vertex-user-bg: #3b82f6;
+  --vertex-text: #1a1a1a;
+  --vertex-text-muted: #666666;
+  --vertex-user-bg: var(--vertex-accent);
   --vertex-user-text: #ffffff;
-  --vertex-ai-bg: #f3f4f6;
-  --vertex-ai-text: #1f2937;
-  --vertex-border: #e5e7eb;
-  --vertex-input-bg: #ffffff;
-  --vertex-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  --vertex-radius: 16px;
+  --vertex-ai-bg: #f0f0f0;
+  --vertex-ai-text: #1a1a1a;
+  --vertex-border: #e0e0e0;
+  --vertex-input-bg: transparent;
+  --vertex-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --vertex-radius: 8px;
   --vertex-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
   position: fixed;
@@ -28,53 +29,51 @@
   font-family: var(--vertex-font);
 }
 
-/* Dark Theme */
+/* Neutral Dark Theme (R=G=B) */
 .vertex-widget-root.theme-dark {
-  --vertex-bg: #111827;
-  --vertex-surface: #1f2937;
-  --vertex-header-bg: #111827;
-  --vertex-text: #f9fafb;
-  --vertex-text-muted: #9ca3af;
-  --vertex-user-bg: #3b82f6;
-  --vertex-ai-bg: #374151;
-  --vertex-ai-text: #f9fafb;
-  --vertex-border: #374151;
-  --vertex-input-bg: #1f2937;
-  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --vertex-primary: var(--vertex-accent);
+  --vertex-primary-hover: var(--vertex-accent);
+  --vertex-bg: #121212;
+  --vertex-surface: #1e1e1e;
+  --vertex-header-bg: #121212;
+  --vertex-text: #eeeeee;
+  --vertex-text-muted: #999999;
+  --vertex-user-bg: var(--vertex-accent);
+  --vertex-user-text: #ffffff;
+  --vertex-ai-bg: #2a2a2a;
+  --vertex-ai-text: #eeeeee;
+  --vertex-border: #333333;
+  --vertex-input-bg: transparent;
+  --vertex-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
 }
 
-/* Ocean Theme */
+/* Glass Ocean Theme (Vibrant Aquatic) */
 .vertex-widget-root.theme-ocean {
-  --vertex-primary: #0d9488;
-  --vertex-primary-hover: #0f766e;
-  --vertex-bg: #0f172a;
-  --vertex-surface: #1e293b;
-  --vertex-header-bg: #0f172a;
-  --vertex-text: #f1f5f9;
-  --vertex-text-muted: #94a3b8;
-  --vertex-user-bg: #0d9488;
-  --vertex-ai-bg: #334155;
-  --vertex-ai-text: #f1f5f9;
-  --vertex-border: #334155;
-  --vertex-input-bg: #1e293b;
-  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  --vertex-accent-fallback: #14b8a6; /* Teal */
+  --vertex-primary: var(--vertex-accent, var(--vertex-accent-fallback));
+  --vertex-primary-hover: var(--vertex-primary);
+  --vertex-bg: rgba(7, 48, 66, 0.85); /* Deep aquatic navy */
+  --vertex-surface: rgba(13, 148, 136, 0.1); /* Subtle teal surface */
+  --vertex-header-bg: transparent;
+  --vertex-text: #f0fdfa;
+  --vertex-text-muted: #99f6e4;
+  --vertex-user-bg: var(--vertex-primary);
+  --vertex-user-text: #ffffff;
+  --vertex-ai-bg: rgba(255, 255, 255, 0.1);
+  --vertex-ai-text: #f0fdfa;
+  --vertex-border: rgba(45, 212, 191, 0.2);
+  --vertex-input-bg: transparent;
+  --vertex-shadow: 0 8px 32px 0 rgba(0, 18, 25, 0.5);
 }
 
-/* Sunset Theme */
-.vertex-widget-root.theme-sunset {
-  --vertex-primary: #f43f5e;
-  --vertex-primary-hover: #e11d48;
-  --vertex-bg: #4c0519;
-  --vertex-surface: #881337;
-  --vertex-header-bg: #4c0519;
-  --vertex-text: #fff1f2;
-  --vertex-text-muted: #fda4af;
-  --vertex-user-bg: #f43f5e;
-  --vertex-ai-bg: #be123c;
-  --vertex-ai-text: #fff1f2;
-  --vertex-border: #be123c;
-  --vertex-input-bg: #881337;
-  --vertex-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+.vertex-widget-root.theme-ocean .vertex-window {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vertex-widget-root.theme-ocean .vertex-messages {
+  background: radial-gradient(circle at top right, rgba(13, 148, 136, 0.1), transparent);
 }
 
 .vertex-trigger {
@@ -177,19 +176,41 @@
 .vertex-input-area input {
   flex: 1;
   background: var(--vertex-input-bg);
-  border: 1px solid var(--vertex-border);
+  border: none;
   color: var(--vertex-text);
-  border-radius: 10px;
-  padding: 10px 14px;
+  border-radius: 0;
+  padding: 10px 0;
   outline: none;
   font-size: 14px;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
-.vertex-input-area input:focus {
-  border-color: var(--vertex-primary);
+.vertex-send-btn {
+  background: transparent;
+  border: none;
+  color: var(--vertex-primary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.vertex-send-btn:hover {
+  opacity: 0.7;
 }
 
 .vertex-input-area input::placeholder {
   color: var(--vertex-text-muted);
+}
+
+/* Material Symbols support */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  vertical-align: middle;
 }

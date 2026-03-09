@@ -10,16 +10,23 @@ window.vertexInit = function (config = {}) {
   // Inject styles from external file
   const styles = document.createElement("link");
   styles.rel = "stylesheet";
-  // Assuming the stylesheet is in the same directory as this script or relative to the page
-  // A better way would be to get the base path of the current script, 
-  // but for simplicity we'll use a relative path or a configurable one.
   styles.href = config.cssPath || "styles.css";
   shadow.appendChild(styles);
+
+  // Inject Material Symbols if not present
+  if (!document.querySelector('link[href*="Material+Symbols"]')) {
+    const symbolLink = document.createElement("link");
+    symbolLink.rel = "stylesheet";
+    symbolLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=send,chat,close";
+    document.head.appendChild(symbolLink);
+  }
 
   // Create the HTML structure
   const root = document.createElement("div");
   const theme = config.theme || "light";
+  const accentColor = config.accentColor || "#3b82f6"; // Default blue
   root.className = `vertex-widget-root theme-${theme}`;
+  root.style.setProperty("--vertex-accent", accentColor);
   root.innerHTML = `
         <div class="vertex-window" id="window">
             <div class="vertex-header">Vertex AI Assistant</div>
@@ -27,11 +34,14 @@ window.vertexInit = function (config = {}) {
                 <div class="msg msg-ai">Hi! I'm Vertex. Ask me anything about this portfolio!</div>
             </div>
             <div class="vertex-input-area">
-                <input type="text" id="input" placeholder="Type a message...">
+                <input type="text" id="input" placeholder="Ask about me">
+                <button id="send-btn" class="vertex-send-btn">
+                   <span class="material-symbols-outlined">send</span>
+                </button>
             </div>
         </div>
         <button class="vertex-trigger" id="trigger">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"></path></svg>
+            <span class="material-symbols-outlined" id="trigger-icon">chat</span>
         </button>
     `;
   shadow.appendChild(root);
@@ -43,31 +53,39 @@ window.vertexInit = function (config = {}) {
   const messages = shadow.getElementById("messages");
 
   // Toggle Chat
-  trigger.onclick = () => window.classList.toggle("active");
+  trigger.onclick = () => {
+    const isActive = window.classList.toggle("active");
+    const icon = shadow.getElementById("trigger-icon");
+    icon.textContent = isActive ? "close" : "chat";
+  };
 
   // Handle Messages
-  input.onkeydown = async (e) => {
-    if (e.key === "Enter" && input.value.trim()) {
-      const text = input.value;
-      addMessage("user", text);
-      input.value = "";
+  const sendMessage = async () => {
+    const text = input.value.trim();
+    if (!text) return;
+    
+    addMessage("user", text);
+    input.value = "";
 
-      try {
-        // Change URL to your deployed Python API
-        const response = await fetch("http://localhost:8000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text, token: token }),
-        });
-        const data = await response.json();
-        addMessage("ai", data.response);
-      } catch (err) {
-        addMessage(
-          "ai",
-          "I'm having trouble connecting to my brain. Is the backend running?",
-        );
-      }
+    try {
+      const response = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, token: token }),
+      });
+      const data = await response.json();
+      addMessage("ai", data.response);
+    } catch (err) {
+      addMessage(
+        "ai",
+        "I'm having trouble connecting to my brain. Is the backend running?",
+      );
     }
+  };
+
+  shadow.getElementById("send-btn").onclick = sendMessage;
+  input.onkeydown = (e) => {
+    if (e.key === "Enter") sendMessage();
   };
 
   function addMessage(type, text) {
